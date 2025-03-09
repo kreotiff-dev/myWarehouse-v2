@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-// Схема для элементов (items) внутри накладной
 const itemSchema = new Schema({
   id: { type: String, required: true },
   productId: { type: String, required: true },
@@ -14,9 +13,7 @@ const itemSchema = new Schema({
   status: { type: String, default: 'pending' },
 });
 
-// Схема для накладной
 const invoiceSchema = new Schema({
-  id: { type: String, required: true, unique: true },
   invoiceNumber: { type: String, required: true, unique: true },
   barcode: { type: String },
   status: { 
