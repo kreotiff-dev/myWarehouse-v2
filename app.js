@@ -3,6 +3,7 @@ import receivingRoutes from './routes/receiving.js';
 import locationsRoutes from './routes/locations.js';
 import placementCartRoutes from './routes/placementCarts.js';
 import inventoryRoutes from './routes/inventory.js';
+import productsRoutes from './routes/products.js';
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.use('/wms/v1/receiving', receivingRoutes);
 app.use('/wms/v1/locations', locationsRoutes);
 app.use('/wms/v1/placement-carts', placementCartRoutes);
 app.use('/wms/v1/inventory', inventoryRoutes);
+app.use('/wms/v1/products', productsRoutes);
 
 export default app;

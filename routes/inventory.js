@@ -4,6 +4,7 @@ import * as inventoryController from '../controllers/inventory.js';
 const router = express.Router();
 
 router.get('/', inventoryController.getInventory);
+router.post('/adjust', inventoryController.adjustInventory);
 router.post('/invoices/:invoiceId/items/:itemId/place', inventoryController.placeItem);
 
 export default router;

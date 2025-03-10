@@ -91,3 +91,72 @@ export async function placeItem(req, res) {
       res.status(500).json({ error: error.message });
     }
   }
+
+  // Проведение инвентаризации (корректировка остатков)
+export async function adjustInventory(req, res) {
+    try {
+      const { sku, locationId, actualQuantity, notes } = req.body;
+      
+      // Проверка существования товара
+      const product = await Product.findOne({ sku });
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      
+      // Проверка существования ячейки
+      const location = await Location.findById(locationId);
+      if (!location) {
+        return res.status(404).json({ error: 'Location not found' });
+      }
+      
+      // Получаем текущие остатки в ячейке
+      const existingInventory = await Inventory.findOne({ sku, locationId });
+      const currentQuantity = existingInventory ? existingInventory.quantity : 0;
+      
+      // Разница между фактическим и текущим количеством
+      const diff = actualQuantity - currentQuantity;
+      
+      if (diff !== 0) {
+        // Обновляем инвентарь
+        if (existingInventory) {
+          // Если есть запись - обновляем количество
+          existingInventory.quantity = actualQuantity;
+          await existingInventory.save();
+        } else if (actualQuantity > 0) {
+          // Если записи нет и количество > 0, создаем новую запись
+          await Inventory.create({
+            sku,
+            quantity: actualQuantity,
+            locationId,
+            status: 'placed'
+          });
+        }
+        
+        // Обновляем использованную вместимость ячейки
+        location.usedCapacity = location.usedCapacity + diff;
+        location.status = location.usedCapacity >= location.capacity ? 'occupied' : 
+                          location.usedCapacity > 0 ? 'reserved' : 'available';
+        await location.save();
+        
+        // Создаем запись в журнале инвентаризации (для отслеживания корректировок)
+        // Это можно реализовать позже с использованием отдельной модели
+      }
+      
+      // Формируем ответ
+      const adjustmentResult = {
+        sku,
+        productName: product.name,
+        locationId,
+        locationBarcode: location.barcode,
+        previousQuantity: currentQuantity,
+        actualQuantity,
+        adjustment: diff,
+        notes: notes || '',
+        timestamp: new Date()
+      };
+      
+      res.status(200).json(adjustmentResult);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
