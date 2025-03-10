@@ -6,6 +6,8 @@ import inventoryRoutes from './routes/inventory.js';
 import productsRoutes from './routes/products.js';
 import ordersRoutes from './routes/orders.js';
 import pickingRoutes from './routes/picking.js';
+import pickingCartRoutes from './routes/pickingCarts.js';
+import packingRoutes from './routes/packing.js';
 
 const app = express();
 
@@ -17,5 +19,7 @@ app.use('/wms/v1/inventory', inventoryRoutes);
 app.use('/wms/v1/products', productsRoutes);
 app.use('/wms/v1/orders', ordersRoutes);
 app.use('/wms/v1/picking', pickingRoutes);
+app.use('/wms/v1/picking-carts', pickingCartRoutes);
+app.use('/wms/v1/packing', packingRoutes);
 
 export default app;
