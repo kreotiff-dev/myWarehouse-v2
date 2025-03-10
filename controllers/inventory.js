@@ -2,6 +2,7 @@ import Inventory from '../models/inventory.js';
 import Location from '../models/location.js';
 import PlacementCart from '../models/placementCart.js';
 import Invoice from '../models/invoice.js';
+import Product from '../models/product.js';
 
 export async function getInventory(req, res) {
   try {
