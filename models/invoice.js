@@ -10,7 +10,9 @@ const itemSchema = new Schema({
   barcode: { type: String },
   expectedQuantity: { type: Number, required: true },
   actualQuantity: { type: Number, default: 0 },
+  placedQuantity: { type: Number, default: 0 }, // Новое поле
   status: { type: String, default: 'pending' },
+  placementCartId: { type: Schema.Types.ObjectId, ref: 'PlacementCart' },
 });
 
 const invoiceSchema = new Schema({
@@ -18,7 +20,7 @@ const invoiceSchema = new Schema({
   barcode: { type: String },
   status: { 
     type: String, 
-    enum: ['new', 'in_progress', 'completed'], 
+    enum: ['new', 'in_progress', 'accepted', 'accepted_with_discrepancies'], 
     default: 'new' 
   },
   items: [itemSchema],

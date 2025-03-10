@@ -3,11 +3,11 @@ import * as receivingController from '../controllers/receiving.js';
 
 const router = express.Router();
 
-router.get('/invoices', receivingController.getInvoices);
-router.post('/invoices', receivingController.createInvoice);
-router.post('/invoices/:invoiceId/scan', receivingController.scanInvoice);
-router.post('/invoices/:invoiceId/items/:itemId/scan', receivingController.scanItem);
-router.post('/invoices/:invoiceId/items/:itemId/count', receivingController.countItem);
-router.post('/invoices/:invoiceId/complete', receivingController.completeInvoice);
+router.get('/', receivingController.getInvoices);
+router.post('/', receivingController.createInvoice);
+router.post('/:invoiceId/scan', receivingController.scanInvoice);
+router.post('/:invoiceId/items/:itemId/scan', receivingController.scanItem);
+router.post('/:invoiceId/items/:itemId/count', receivingController.countItem); // Добавлено
+router.post('/:invoiceId/complete', receivingController.completeInvoice);
 
 export default router;

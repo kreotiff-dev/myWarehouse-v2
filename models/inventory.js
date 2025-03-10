@@ -3,14 +3,10 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const inventorySchema = new Schema({
-  invoiceId: { type: Schema.Types.ObjectId, ref: 'Invoice', required: true },
-  itemId: { type: String, required: true }, // ID товара из накладной
-  productId: { type: String, required: true },
-  sku: { type: String, required: true },
-  name: { type: String, required: true },
-  barcode: { type: String },
-  quantity: { type: Number, required: true }, // Фактическое количество
-  locationId: { type: Schema.Types.ObjectId, ref: 'Location' }, // Ячейка
+  sku: { type: String, required: true, index: true }, // Связь с Product
+  quantity: { type: Number, required: true }, // Размещённое количество
+  locationId: { type: Schema.Types.ObjectId, ref: 'Location', required: true }, // Ячейка
+  status: { type: String, enum: ['placed'], default: 'placed' }, // Пока только "placed"
   createdAt: { type: Date, default: Date.now },
 });
 
