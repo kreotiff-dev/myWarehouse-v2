@@ -56,56 +56,96 @@ export async function scanInvoice(req, res) {
 }
 
 export async function scanItem(req, res) {
-  try {
-    const { invoiceId, itemId } = req.params;
-    const invoice = await Invoice.findById(invoiceId);
-    if (!invoice) {
-      return res.status(404).json({ error: 'Invoice not found' });
+    try {
+      const { invoiceId, itemId } = req.params;
+      const { barcode } = req.body; // Получаем штрихкод из тела запроса
+  
+      const invoice = await Invoice.findById(invoiceId);
+      if (!invoice) {
+        return res.status(404).json({ error: 'Invoice not found' });
+      }
+      
+      const item = invoice.items.find((i) => i.id === itemId);
+      if (!item) {
+        return res.status(404).json({ error: 'Item not found' });
+      }
+      
+      // Проверяем соответствие штрихкода
+      if (item.barcode !== barcode) {
+        return res.status(400).json({ error: 'Barcode does not match the item' });
+      }
+      
+      item.status = 'scanned';
+      await invoice.save();
+      res.status(200).json(item);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-    const item = invoice.items.find((i) => i.id === itemId);
-    if (!item) {
-      return res.status(404).json({ error: 'Item not found' });
-    }
-    item.status = 'scanned';
-    await invoice.save();
-    res.status(200).json(item);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-}
 
-export async function countItem(req, res) {
-  try {
-    const { invoiceId, itemId } = req.params;
-    const { actualQuantity, placementCartId } = req.body;
-    const invoice = await Invoice.findById(invoiceId);
-    if (!invoice) {
-      return res.status(404).json({ error: 'Invoice not found' });
-    }
-    const item = invoice.items.find((i) => i.id === itemId);
-    if (!item) {
-      return res.status(404).json({ error: 'Item not found' });
-    }
-    if (placementCartId) {
-      const cart = await PlacementCart.findById(placementCartId);
-      if (!cart) {
-        return res.status(404).json({ error: 'Placement cart not found' });
+  export async function countItem(req, res) {
+    try {
+      const { invoiceId, itemId } = req.params;
+      const { actualQuantity, placementCartId } = req.body;
+      
+      const invoice = await Invoice.findById(invoiceId);
+      if (!invoice) {
+        return res.status(404).json({ error: 'Invoice not found' });
       }
-      if (cart.status === 'occupied') {
-        return res.status(400).json({ error: 'Placement cart is already occupied' });
+      
+      const item = invoice.items.find((i) => i.id === itemId);
+      if (!item) {
+        return res.status(404).json({ error: 'Item not found' });
       }
-      cart.status = 'occupied';
-      item.placementCartId = placementCartId;
-      await cart.save();
+      
+      if (placementCartId) {
+        const cart = await PlacementCart.findById(placementCartId);
+        if (!cart) {
+          return res.status(404).json({ error: 'Placement cart not found' });
+        }
+        
+        // Проверяем, если тележка пуста, меняем статус на occupied
+        if (cart.items.length === 0 && cart.status === 'free') {
+          cart.status = 'occupied';
+        }
+        
+        // Проверяем, если товар уже есть в тележке
+        const existingItemIndex = cart.items.findIndex(
+          cartItem => cartItem.invoiceId.toString() === invoiceId && 
+                     cartItem.itemId === itemId
+        );
+        
+        if (existingItemIndex >= 0) {
+          // Обновляем существующий товар
+          cart.items[existingItemIndex].quantity = actualQuantity;
+        } else {
+          // Добавляем новый товар
+          cart.items.push({
+            invoiceId: invoice._id,
+            itemId: item.id,
+            sku: item.sku,
+            name: item.name,
+            quantity: actualQuantity,
+            placedQuantity: 0
+          });
+        }
+        
+        // Сохраняем привязку тележки к товару накладной
+        item.placementCartId = placementCartId;
+        
+        await cart.save();
+      }
+      
+      item.actualQuantity = actualQuantity;
+      item.status = 'counted';
+      
+      await invoice.save();
+      
+      res.status(200).json(item);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-    item.actualQuantity = actualQuantity;
-    item.status = 'counted';
-    await invoice.save();
-    res.status(200).json(item);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-}
 
 export async function completeInvoice(req, res) {
   try {

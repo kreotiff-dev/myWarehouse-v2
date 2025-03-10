@@ -19,3 +19,15 @@ export async function createLocation(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+export async function getLocationById(req, res) {
+    try {
+      const location = await Location.findById(req.params.id);
+      if (!location) {
+        return res.status(404).json({ error: 'Location not found' });
+      }
+      res.status(200).json(location);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
