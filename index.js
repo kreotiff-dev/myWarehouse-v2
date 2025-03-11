@@ -11,6 +11,8 @@ async function startServer() {
     await connectDB();
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
+      console.log(`API Documentation (Redoc): http://localhost:${PORT}/api-docs`);
+      console.log(`API Documentation (Swagger UI): http://localhost:${PORT}/api-docs/swagger`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

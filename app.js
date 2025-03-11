@@ -8,9 +8,14 @@ import ordersRoutes from './routes/orders.js';
 import pickingRoutes from './routes/picking.js';
 import pickingCartRoutes from './routes/pickingCarts.js';
 import packingRoutes from './routes/packing.js';
-import shippingRoutes from './routes/shipping.js'; // Новый импорт
+import shippingRoutes from './routes/shipping.js';
+import { setupApiDocs } from './swagger.js';
 
 const app = express();
+
+app.use(express.json());
+
+setupApiDocs(app);
 
 app.use(express.json());
 app.use('/wms/v1/receiving', receivingRoutes);
