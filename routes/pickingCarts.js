@@ -1,6 +1,6 @@
 // routes/pickingCarts.js
 import express from 'express';
-import * as pickingCartsController from '../controllers/pickingCarts.js';
+import * as pickingCartsController from '../controllers/pickingCart.js';
 
 const router = express.Router();
 

@@ -26,7 +26,7 @@ const orderSchema = new Schema({
   },
   status: { 
     type: String, 
-    enum: ['new', 'processing', 'picking', 'picked', 'packed', 'shipped', 'delivered', 'cancelled'], 
+    enum: ['new', 'processing', 'picking', 'picked', 'packing', 'packed', 'shipping', 'shipped', 'delivered', 'cancelled'], 
     default: 'new' 
   },
   priority: { type: Number, default: 0 }, // Приоритет заказа: выше число = выше приоритет

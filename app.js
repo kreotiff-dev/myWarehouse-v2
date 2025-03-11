@@ -8,6 +8,7 @@ import ordersRoutes from './routes/orders.js';
 import pickingRoutes from './routes/picking.js';
 import pickingCartRoutes from './routes/pickingCarts.js';
 import packingRoutes from './routes/packing.js';
+import shippingRoutes from './routes/shipping.js'; // Новый импорт
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use('/wms/v1/orders', ordersRoutes);
 app.use('/wms/v1/picking', pickingRoutes);
 app.use('/wms/v1/picking-carts', pickingCartRoutes);
 app.use('/wms/v1/packing', packingRoutes);
+app.use('/wms/v1/shipping', shippingRoutes); // Новый маршрут
 
 export default app;
