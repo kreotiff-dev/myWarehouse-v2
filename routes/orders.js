@@ -1,8 +1,14 @@
 // routes/orders.js
 import express from 'express';
 import * as ordersController from '../controllers/orders.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -11,6 +17,8 @@ const router = express.Router();
  *     summary: Получить список заказов
  *     description: Возвращает список заказов с возможностью фильтрации по статусу
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: status
@@ -43,6 +51,8 @@ router.get('/', ordersController.getOrders);
  *     summary: Создать новый заказ
  *     description: Создает новый заказ в системе с указанными товарами
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -126,6 +136,8 @@ router.post('/', ordersController.createOrder);
  *     summary: Получить заказ по ID
  *     description: Возвращает подробную информацию о конкретном заказе
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -163,6 +175,8 @@ router.get('/:id', ordersController.getOrderById);
  *     summary: Обновить статус заказа
  *     description: Изменяет статус указанного заказа
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -220,6 +234,8 @@ router.patch('/:id/status', ordersController.updateOrderStatus);
  *     summary: Резервировать товары для заказа
  *     description: Резервирует товары на складе для выполнения заказа
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

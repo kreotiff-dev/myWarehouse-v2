@@ -38,6 +38,7 @@ const options = {
       },
     ],
     tags: [
+      { name: 'Auth', description: 'Авторизация и управление пользователями' },
       { name: 'Inventory', description: 'Операции с товарными запасами' },
       { name: 'Locations', description: 'Управление ячейками склада' },
       { name: 'Orders', description: 'Работа с заказами' },

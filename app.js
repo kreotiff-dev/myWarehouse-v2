@@ -10,6 +10,7 @@ import pickingRoutes from './routes/picking.js';
 import pickingCartRoutes from './routes/pickingCarts.js';
 import packingRoutes from './routes/packing.js';
 import shippingRoutes from './routes/shipping.js';
+import authRoutes from './routes/auth.js';
 import { setupApiDocs } from './swagger.js';
 
 // Загружаем переменные окружения
@@ -37,6 +38,7 @@ setupApiDocs(app);
 // Убираем повторный вызов express.json()
 // app.use(express.json()); - дублирование, уже есть в начале
 
+app.use('/wms/v1/auth', authRoutes);
 app.use('/wms/v1/receiving', receivingRoutes);
 app.use('/wms/v1/locations', locationsRoutes);
 app.use('/wms/v1/placement-carts', placementCartRoutes);

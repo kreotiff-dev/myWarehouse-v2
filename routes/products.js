@@ -1,7 +1,13 @@
 import express from 'express';
 import * as productsController from '../controllers/products.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -10,6 +16,8 @@ const router = express.Router();
  *     summary: Получить список товаров
  *     description: Возвращает список всех товаров с возможностью фильтрации по категории и наличию на складе
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: category
@@ -48,6 +56,8 @@ router.get('/', productsController.getProducts);
  *     summary: Создать новый товар
  *     description: Добавляет новый товар в каталог продуктов
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -128,6 +138,8 @@ router.post('/', productsController.createProduct);
  *     summary: Получить товар по ID
  *     description: Возвращает подробную информацию о товаре, включая данные о запасах и расположении
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -205,6 +217,8 @@ router.get('/:id', productsController.getProductById);
  *     summary: Получить товар по штрихкоду
  *     description: Возвращает информацию о товаре по его штрихкоду
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: barcode

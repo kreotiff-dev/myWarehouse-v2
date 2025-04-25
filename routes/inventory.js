@@ -1,7 +1,13 @@
 import express from 'express';
 import * as inventoryController from '../controllers/inventory.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -10,6 +16,8 @@ const router = express.Router();
  *     summary: Получить список всех товаров на складе
  *     description: Возвращает полный список всех товаров на складе с информацией о их количестве и расположении
  *     tags: [Inventory]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Успешное получение списка товаров
@@ -35,6 +43,8 @@ router.get('/', inventoryController.getInventory);
  *     summary: Корректировка остатков товара
  *     description: Позволяет скорректировать фактическое количество товара в конкретной ячейке
  *     tags: [Inventory]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -105,6 +115,8 @@ router.post('/adjust', inventoryController.adjustInventory);
  *     summary: Размещение товара на склад
  *     description: Размещает товар из приемки на указанную ячейку склада
  *     tags: [Inventory]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: invoiceId

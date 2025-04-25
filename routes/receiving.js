@@ -1,7 +1,11 @@
 import express from 'express';
 import * as receivingController from '../controllers/receiving.js';
+import { authMiddleware, roleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
 
 /**
  * @swagger
@@ -10,6 +14,8 @@ const router = express.Router();
  *     summary: Получить список накладных приёмки
  *     description: Возвращает список всех накладных приёмки товаров
  *     tags: [Receiving]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Успешное получение списка накладных
@@ -35,6 +41,8 @@ router.get('/', receivingController.getInvoices);
  *     summary: Создать новую накладную приёмки
  *     description: Создает новую накладную для приёмки товаров на склад
  *     tags: [Receiving]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -118,6 +126,8 @@ router.post('/', receivingController.createInvoice);
  *     summary: Начать обработку накладной
  *     description: Изменяет статус накладной на "в процессе приёмки"
  *     tags: [Receiving]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: invoiceId
@@ -155,6 +165,8 @@ router.post('/:invoiceId/scan', receivingController.scanInvoice);
  *     summary: Сканировать товар в накладной
  *     description: Сканирует штрихкод товара при приёмке для подтверждения его наличия
  *     tags: [Receiving]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: invoiceId
@@ -234,6 +246,8 @@ router.post('/:invoiceId/items/:itemId/scan', receivingController.scanItem);
  *     summary: Подсчёт количества товара
  *     description: Фиксирует фактическое количество товара при приёмке и опционально привязывает к тележке размещения
  *     tags: [Receiving]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: invoiceId
@@ -315,6 +329,8 @@ router.post('/:invoiceId/items/:itemId/count', receivingController.countItem);
  *     summary: Завершить приёмку накладной
  *     description: Завершает процесс приёмки накладной и фиксирует итоговый статус
  *     tags: [Receiving]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: invoiceId

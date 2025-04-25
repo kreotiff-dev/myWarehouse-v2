@@ -1,7 +1,13 @@
 import express from 'express';
 import * as locationsController from '../controllers/locations.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -10,6 +16,8 @@ const router = express.Router();
  *     summary: Получить список всех ячеек
  *     description: Возвращает полный список всех ячеек склада с их параметрами
  *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Успешное получение списка ячеек
@@ -35,6 +43,8 @@ router.get('/', locationsController.getLocations);
  *     summary: Получить ячейку по ID
  *     description: Возвращает детальную информацию о конкретной ячейке склада
  *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -72,6 +82,8 @@ router.get('/:id', locationsController.getLocationById);
  *     summary: Создать новую ячейку
  *     description: Создает новую ячейку на складе с указанными параметрами
  *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

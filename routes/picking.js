@@ -1,7 +1,13 @@
 import express from 'express';
 import * as pickingController from '../controllers/picking.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -10,6 +16,8 @@ const router = express.Router();
  *     summary: Получить список заданий на сборку
  *     description: Возвращает список всех заданий на сборку с возможностью фильтрации по статусу
  *     tags: [Picking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: status
@@ -42,6 +50,8 @@ router.get('/', pickingController.getPickingTasks);
  *     summary: Создать задание на сборку
  *     description: Создает новое задание на сборку для указанных заказов
  *     tags: [Picking]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -96,6 +106,8 @@ router.post('/', pickingController.createPickingTask);
  *     summary: Начать сборку
  *     description: Начинает выполнение задания на сборку, привязывает тележку сборки
  *     tags: [Picking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -157,6 +169,8 @@ router.post('/:id/start', pickingController.startPickingTask);
  *     summary: Сканировать ячейку при сборке
  *     description: Проверяет соответствие штрихкода ячейки при сборке товара
  *     tags: [Picking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -250,6 +264,8 @@ router.post('/:id/scan-location', pickingController.scanLocation);
  *     summary: Собрать товар
  *     description: Выполняет сборку товара из ячейки и размещение в тележку
  *     tags: [Picking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
