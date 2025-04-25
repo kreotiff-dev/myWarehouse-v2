@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/your-username/wms-project/compare/v1.1.0...v1.2.0) (2025-04-25)
+
+
+### Features
+
+* add dynamic versioning in Swagger UI ([256b81c](https://github.com/your-username/wms-project/commit/256b81c99306d5b8ceed5b1cf696073b5b853948))
+
 ## 1.1.0 (2025-04-25)
 
 
