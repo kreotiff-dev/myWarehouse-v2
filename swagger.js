@@ -2,6 +2,13 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import redoc from 'redoc-express';
 import dotenv from 'dotenv';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Получаем путь к текущему файлу и директории
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Загружаем переменные окружения на старте
 dotenv.config();
@@ -10,12 +17,17 @@ dotenv.config();
 const DEFAULT_HOSTNAME = process.env.API_HOSTNAME || 'localhost:3000';
 const DEFAULT_PROTOCOL = process.env.API_PROTOCOL || 'http';
 
+// Получаем версию и дату из package.json
+const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf8'));
+const currentVersion = packageJson.version || '1.0.0';
+const versionDate = new Date().toISOString().split('T')[0]; // Текущая дата в формате YYYY-MM-DD
+
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'WMS API',
-      version: '1.0.0',
+      version: `${currentVersion} (${versionDate})`,
       description: 'API документация системы управления складом',
       contact: {
         name: 'API Support',
