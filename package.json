@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "release": "standard-version"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +23,8 @@
     "redoc-express": "^2.1.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "standard-version": "^9.5.0"
   }
 }
