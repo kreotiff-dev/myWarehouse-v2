@@ -13,6 +13,8 @@ async function startServer() {
       console.log(`Server running on port ${PORT}`);
       console.log(`API Documentation (Redoc): http://localhost:${PORT}/api-docs`);
       console.log(`API Documentation (Swagger UI): http://localhost:${PORT}/api-docs/swagger`);
+      console.log(`Postman Examples Demo: http://localhost:${PORT}/api-docs/examples`);
+      console.log(`Идеальный полигон для изучения API тестирования!`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

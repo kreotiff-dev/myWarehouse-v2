@@ -1,8 +1,14 @@
 // routes/shipping.js
 import express from 'express';
 import * as shippingController from '../controllers/shipping.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -11,6 +17,8 @@ const router = express.Router();
  *     summary: Получить список заданий на отправку
  *     description: Возвращает список всех заданий на отправку товаров с возможностью фильтрации по статусу
  *     tags: [Shipping]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: status
@@ -43,6 +51,8 @@ router.get('/', shippingController.getShippingTasks);
  *     summary: Создать задание на отправку
  *     description: Создает новое задание на отправку для указанных заказов
  *     tags: [Shipping]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

@@ -1,5 +1,17 @@
 import PlacementCart from '../models/placementCart.js';
 
+export async function getPlacementCarts(req, res) {
+  try {
+    const { status } = req.query;
+    const filter = status ? { status } : {};
+    
+    const carts = await PlacementCart.find(filter);
+    res.status(200).json(carts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 export async function createPlacementCart(req, res) {
   try {
     const cart = new PlacementCart();
