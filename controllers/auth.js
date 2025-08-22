@@ -105,17 +105,9 @@ export const register = async (req, res) => {
  *                 token:
  *                   type: string
  *                   description: JWT токен
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                     username:
- *                       type: string
- *                     email:
- *                       type: string
- *                     role:
- *                       type: string
+ *                   $ref: '#/components/schemas/User'
  *       401:
  *         description: Неверные учетные данные
  */
@@ -184,22 +176,7 @@ export const login = async (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: string
- *                 username:
- *                   type: string
- *                 email:
- *                   type: string
- *                 role:
- *                   type: string
- *                 createdAt:
- *                   type: string
- *                   format: date-time
- *                 lastLogin:
- *                   type: string
- *                   format: date-time
+ *               $ref: '#/components/schemas/User'
  *       401:
  *         description: Не авторизован
  */

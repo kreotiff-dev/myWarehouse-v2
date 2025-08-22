@@ -2,6 +2,45 @@
  * @swagger
  * components:
  *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           example: "60d21b4667d0d8992e610c85"
+ *         username:
+ *           type: string
+ *           description: Уникальное имя пользователя
+ *           example: "john_doe"
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email пользователя
+ *           example: "john@example.com"
+ *         role:
+ *           type: string
+ *           enum: [admin, worker]
+ *           description: Роль пользователя в системе
+ *           example: "worker"
+ *         isActive:
+ *           type: boolean
+ *           description: Статус активности пользователя
+ *           example: true
+ *         lastLogin:
+ *           type: string
+ *           format: date-time
+ *           description: Дата последнего входа в систему
+ *           example: "2025-01-15T09:30:00Z"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Дата создания пользователя
+ *           example: "2025-01-01T10:00:00Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Дата последнего обновления
+ *           example: "2025-01-10T15:30:00Z"
  *     Inventory:
  *       type: object
  *       properties:
@@ -586,8 +625,27 @@
  *     Error:
  *       type: object
  *       properties:
- *         error:
+ *         message:
  *           type: string
  *           description: Сообщение об ошибке
+ *           example: "Ошибка валидации данных"
+ *         error:
+ *           type: string
+ *           description: Детали ошибки
  *           example: "Location not found"
+ *         code:
+ *           type: string
+ *           description: Код ошибки
+ *           example: "VALIDATION_ERROR"
+ *     
+ *     SuccessResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           description: Сообщение об успешной операции
+ *           example: "Операция выполнена успешно"
+ *         data:
+ *           type: object
+ *           description: Дополнительные данные ответа
  */

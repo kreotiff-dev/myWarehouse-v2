@@ -33,6 +33,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Простой тестовый маршрут
+app.get('/test', (req, res) => {
+  res.json({ message: 'Server is working!', timestamp: new Date() });
+});
+
 setupApiDocs(app);
 
 // Убираем повторный вызов express.json()

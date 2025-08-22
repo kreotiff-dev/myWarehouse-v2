@@ -1,8 +1,14 @@
 // routes/packing.js
 import express from 'express';
 import * as packingController from '../controllers/packing.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -11,6 +17,8 @@ const router = express.Router();
  *     summary: Получить список заданий на упаковку
  *     description: Возвращает список всех заданий на упаковку с возможностью фильтрации по статусу
  *     tags: [Packing]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: status
@@ -43,6 +51,8 @@ router.get('/', packingController.getPackingTasks);
  *     summary: Создать задание на упаковку
  *     description: Создает новое задание на упаковку для указанного заказа
  *     tags: [Packing]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

@@ -13,6 +13,8 @@ A comprehensive warehouse management system built with Node.js and MongoDB for m
 
 ## Installation
 
+**📖 Подробные инструкции:** [QUICK_START.md](./QUICK_START.md)
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -22,8 +24,7 @@ cd wms-project
 npm install
 
 # Create and configure .env file
-cp .env.example .env
-# Edit .env with your configuration
+# Смотри пример в QUICK_START.md
 
 # Start the server
 npm run dev
@@ -33,8 +34,11 @@ npm run dev
 
 Once the server is running, you can access the API documentation at:
 
-- ReDoc: http://localhost:3001/api-docs
-- Swagger UI: http://localhost:3001/api-docs/swagger
+- **🧪 Примеры тестов Postman:** http://localhost:3001/api-docs/examples
+- **📚 Swagger UI:** http://localhost:3001/api-docs/swagger
+- **📖 ReDoc:** http://localhost:3001/api-docs
+
+**🎓 Идеальный полигон для изучения API тестирования!**
 
 ## Development
 

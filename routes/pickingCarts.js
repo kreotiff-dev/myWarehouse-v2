@@ -1,8 +1,14 @@
 // routes/pickingCarts.js
 import express from 'express';
 import * as pickingCartsController from '../controllers/pickingCart.js';
+import { authMiddleware, workerRoleMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// Применяем middleware аутентификации ко всем маршрутам
+router.use(authMiddleware);
+// Доступ только для worker и admin
+router.use(workerRoleMiddleware);
 
 /**
  * @swagger
@@ -11,6 +17,8 @@ const router = express.Router();
  *     summary: Получить список тележек сборки
  *     description: Возвращает список всех тележек сборки с возможностью фильтрации по статусу
  *     tags: [PickingCarts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: status
@@ -43,6 +51,8 @@ router.get('/', pickingCartsController.getPickingCarts);
  *     summary: Создать новую тележку сборки
  *     description: Создает новую тележку сборки с уникальным штрихкодом
  *     tags: [PickingCarts]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       content:
  *         application/json:
@@ -76,6 +86,8 @@ router.post('/', pickingCartsController.createPickingCart);
  *     summary: Получить тележку сборки по ID
  *     description: Возвращает подробную информацию о конкретной тележке сборки
  *     tags: [PickingCarts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
