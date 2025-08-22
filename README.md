@@ -1,65 +1,77 @@
-# Warehouse Management System (WMS)
+# Система управления складом (WMS)
 
-A comprehensive warehouse management system built with Node.js and MongoDB for managing inventory, orders, and warehouse operations.
+Комплексная система управления складом, построенная на Node.js и MongoDB для управления товарными запасами, заказами и складскими операциями.
 
-## Features
+## Возможности
 
-- Product and inventory management
-- Location management with capacity tracking
-- Order processing and fulfillment
-- Picking, packing, and shipping workflows
-- User authentication and authorization
-- API documentation with Swagger and ReDoc
+- Управление товарами и запасами
+- Управление ячейками с отслеживанием вместимости
+- Обработка заказов и их выполнение
+- Workflow'ы сборки, упаковки и отгрузки
+- Аутентификация и авторизация пользователей
+- API документация с Swagger и ReDoc
 
-## Installation
-
-**📖 Подробные инструкции:** [QUICK_START.md](./QUICK_START.md)
+## Установка
 
 ```bash
-# Clone the repository
+# Клонировать репозиторий
 git clone <repository-url>
 cd wms-project
 
-# Install dependencies
+# Установить зависимости
 npm install
 
-# Create and configure .env file
-# Смотри пример в QUICK_START.md
+# Создать и настроить .env файл
+# Смотри пример ниже
 
-# Start the server
+# Запустить сервер
 npm run dev
 ```
 
-## API Documentation
+## Настройка окружения
 
-Once the server is running, you can access the API documentation at:
+Создайте файл `.env` в корне проекта:
 
-- **🧪 Примеры тестов Postman:** http://localhost:3001/api-docs/examples
+```env
+# База данных
+MONGODB_URI=mongodb://localhost:27017/wms
+
+# Порт сервера
+PORT=3001
+
+# JWT секрет
+JWT_SECRET=your-secret-key
+
+# Протокол и хост API
+API_PROTOCOL=http
+API_HOSTNAME=localhost:3001
+```
+
+## API Документация
+
+После запуска сервера вы можете получить доступ к API документации по адресам:
+
 - **📚 Swagger UI:** http://localhost:3001/api-docs/swagger
 - **📖 ReDoc:** http://localhost:3001/api-docs
 
-**🎓 Идеальный полигон для изучения API тестирования!**
+**🎯 Идеальный полигон для изучения API тестирования!**
 
-## Development
+## Разработка
 
-### Version Management
+### Управление версиями
 
-This project uses [standard-version](https://github.com/conventional-changelog/standard-version) for versioning based on [Conventional Commits](https://www.conventionalcommits.org/).
+Этот проект использует [standard-version](https://github.com/conventional-changelog/standard-version) для версионирования на основе [Conventional Commits](https://www.conventionalcommits.org/).
 
-To create a new release:
+Для создания нового релиза:
 
 ```bash
-# Run the release script
+# Запустить скрипт релиза
 npm run release
 
-# Push the new version and tags
+# Отправить новую версию и теги
 git push --follow-tags origin main
 ```
 
-## Contributing
+## Лицензия
 
-Please read the [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## License
-
-This project is licensed under the ISC License.
+Этот проект лицензирован под ISC License.
