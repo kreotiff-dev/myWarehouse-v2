@@ -67,7 +67,7 @@ JWT токены, роли пользователей
     },
     servers: [
       {
-        url: 'http://localhost:3001/wms/v1',
+        url: 'https://sklad.testerhub.ru/wms/v1',
         description: 'Локальная разработка'
       }
     ],
@@ -276,7 +276,7 @@ export function setupApiDocs(app) {
         tryItOutEnabled: true,
         requestInterceptor: (req) => {
           // Добавляем заголовок для отслеживания
-          req.headers['X-API-Testing-Course'] = 'Postman с нуля до профи';
+          req.headers['X-API-Testing-Course'] = 'Postman from zero to pro';
           return req;
         }
       }
